@@ -1,0 +1,24 @@
+services:
+  postgres:
+    container_name: postgres-ecc-ed
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: environment_dashboard
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5421:5432
+    networks:
+      - environment-network
+    restart: unless-stopped
+
+networks:
+  environment-network:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
