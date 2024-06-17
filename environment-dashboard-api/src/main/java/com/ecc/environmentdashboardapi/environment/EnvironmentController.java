@@ -1,11 +1,9 @@
 package com.ecc.environmentdashboardapi.environment;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,7 +15,7 @@ public class EnvironmentController {
     private final EnvironmentService environmentService;
 
     @PostMapping
-    public ResponseEntity<EnvironmentResponse> createEnvironment(EnvironmentRequest request) {
+    public ResponseEntity<EnvironmentResponse> createEnvironment(@Valid @RequestBody EnvironmentRequest request) {
         return ResponseEntity.ok(environmentService.createEnvironment(request));
     }
 
