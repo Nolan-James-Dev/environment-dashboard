@@ -1,0 +1,19 @@
+<h2 mat-dialog-title class="bg-green">Add Environment</h2>
+<mat-dialog-content [formGroup]="form">
+
+  <mat-form-field class="mt-4">
+    <mat-label>Environment Name:</mat-label>
+    <input matInput placeholder="SIT5" formControlName="username">
+  </mat-form-field>
+
+
+  <mat-form-field class="mt-4">
+    <mat-label>Textarea</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" (click)="addUser()">Save</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

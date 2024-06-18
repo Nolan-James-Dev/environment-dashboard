@@ -7,12 +7,14 @@ import com.ecc.environmentdashboardapi.user.User;
 import com.ecc.environmentdashboardapi.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import static com.ecc.environmentdashboardapi.booking.BookingExceptionResponse.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
@@ -21,6 +23,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingResponse createBooking(BookingRequest request) {
+        log.info("User id {} attempting to create booking into {} on {} at {}",
+                request.userId(), request.environmentId(), request.date(), request.startTime());
         boolean bookingExists = bookingExists(request);
 
         if (!bookingExists) {
