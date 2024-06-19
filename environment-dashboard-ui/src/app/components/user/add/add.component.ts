@@ -1,56 +1,54 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogActions,
-  MatDialogClose,
-  MatDialogConfig,
-  MatDialogContent, MatDialogRef,
+  MatDialogClose, MatDialogConfig,
+  MatDialogContent,
+  MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatRow} from "@angular/material/table";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-add',
   standalone: true,
   imports: [
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
+    FormsModule,
     MatButton,
+    MatDialogActions,
     MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
     MatFormField,
     MatInput,
     MatLabel,
-    ReactiveFormsModule,
-    MatRow
+    ReactiveFormsModule
   ],
   templateUrl: './add.component.html',
   styleUrl: './add.component.scss'
 })
 export class AddComponent {
   form = this.fb.group({
-    name: ['', Validators.required],
-    description: ['', Validators.required]
+    username: ['', Validators.required]
   })
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>) {
+
   }
 
   close() {
     this.dialogRef.close();
   }
 
-  addEnvironment() {
+  addUser() {
     this.dialogRef.close(this.form.value);
   }
 }
 
-export function addEnvironmentDialog(dialog: MatDialog) {
+export function addUserDialog(dialog: MatDialog) {
   const config = new MatDialogConfig();
   config.disableClose = true;
   config.autoFocus = true;

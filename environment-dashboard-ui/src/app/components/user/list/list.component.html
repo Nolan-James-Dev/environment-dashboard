@@ -1,0 +1,14 @@
+<div class="container mt-4">
+  <table class="table">
+    <thead class="table-success">
+    <tr>
+      <th scope="col">Username</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users()">
+      <td>{{ user.username }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

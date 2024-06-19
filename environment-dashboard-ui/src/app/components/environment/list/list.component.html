@@ -1,0 +1,16 @@
+<div class="container mt-4">
+  <table class="table">
+    <thead class="table-success">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let env of environments()">
+      <td>{{ env.name }}</td>
+      <td>{{ env.description }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
