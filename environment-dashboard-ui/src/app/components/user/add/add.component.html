@@ -1,0 +1,16 @@
+<h2 mat-dialog-title class="bg-green">Add User</h2>
+<mat-dialog-content [formGroup]="form">
+
+  <div class="d-flex flex-column">
+    <mat-form-field class="mt-4">
+      <mat-label>Username / Team:</mat-label>
+      <input matInput placeholder="CI Test Team" formControlName="username">
+    </mat-form-field>
+
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" (click)="addUser()" [disabled]="!form.valid">Save</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

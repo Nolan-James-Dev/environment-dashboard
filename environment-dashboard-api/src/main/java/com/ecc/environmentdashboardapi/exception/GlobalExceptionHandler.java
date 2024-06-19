@@ -33,4 +33,15 @@ public class GlobalExceptionHandler {
                                 .build()
                 );
     }
+
+    @ExceptionHandler(BookingAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> handleException(BookingAlreadyExistsException exception) {
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(
+                        ExceptionResponse.builder()
+                                .error(exception.getMessage())
+                                .build()
+                );
+    }
 }
