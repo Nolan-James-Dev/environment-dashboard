@@ -12,12 +12,9 @@ export class EnvironmentService {
   http: HttpClient = inject(HttpClient);
   env = environment
 
-  async createEnvironment(environment: Environment) {
+  async createEnvironment(environment: Environment): Promise<Environment> {
     const environment$ =
-      this.http.post(`${this.env.apiRoot}/environments`, {
-        "name": environment.name,
-        "description": environment.description
-      });
+      this.http.post<Environment>(`${this.env.apiRoot}/environments`, environment);
     return await firstValueFrom(environment$);
   }
 

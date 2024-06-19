@@ -7,6 +7,8 @@ import {filter} from "rxjs";
 import {UserService} from "../../services/user/user.service";
 import {addUserDialog} from "../../components/user/add/add.component";
 import {RouterLink} from "@angular/router";
+import {addBookingDialog} from "../../components/booking/add/add.component";
+import {BookingService} from '../../services/booking/booking.service';
 
 @Component({
   selector: 'app-navbar',
@@ -23,6 +25,7 @@ export class NavbarComponent {
   readonly dialog = inject(MatDialog);
   environmentService = inject(EnvironmentService);
   userService = inject(UserService);
+  bookingService = inject(BookingService);
 
   addEnvironment() {
     addEnvironmentDialog(this.dialog)
@@ -44,6 +47,18 @@ export class NavbarComponent {
       .subscribe(
         value => {
           const user = this.userService.createUser(value);
+        }
+      )
+  }
+
+  addBooking() {
+    addBookingDialog(this.dialog)
+      .pipe(
+        filter(value => !!value)
+      )
+      .subscribe(
+        value => {
+          const booking = this.bookingService.createBooking(value);
         }
       )
   }

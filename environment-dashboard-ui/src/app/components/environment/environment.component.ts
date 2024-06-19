@@ -16,6 +16,7 @@ export class EnvironmentComponent {
   environmentService = inject(EnvironmentService);
   environments = signal<Environment[]>([]);
 
+
   constructor() {
     this.loadAllEnvironments()
       .then(() => console.log('All environments loaded', this.environments()));
