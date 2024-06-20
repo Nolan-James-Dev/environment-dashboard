@@ -2,7 +2,6 @@ package com.ecc.environmentdashboardapi.timeslot;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
