@@ -14,7 +14,7 @@ export class BookingService {
 
   async createBooking(booking: Booking): Promise<Booking> {
     const booking$ =
-      this.http.post<Booking>(`${this.env.apiRoot}}/bookings`, booking);
+      this.http.post<Booking>(`${this.env.apiRoot}/bookings`, booking);
     return await firstValueFrom(booking$);
   }
 

@@ -22,6 +22,7 @@ import {EnvironmentService} from "../../../services/environment/environment.serv
 import {Environment} from "../../../models/Environment.model";
 import {BookingService} from "../../../services/booking/booking.service";
 import {TimeSlot} from "../../../models/TimeSlot.model";
+import moment from "moment";
 
 @Component({
   selector: 'app-add',
@@ -76,7 +77,7 @@ export class AddComponent {
   }
 
   addBooking() {
-    console.log(this.form.value);
+    this.form.value.date = moment().format("DD/MM/yyyy");
     this.dialogRef.close(this.form.value);
   }
 
