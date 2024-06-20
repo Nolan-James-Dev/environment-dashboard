@@ -21,12 +21,14 @@ export class BookingService {
   async getBookingsForCurrentDay(): Promise<Booking[]> {
     const bookings$ =
       this.http.get<Booking[]>(`${this.env.apiRoot}/bookings`);
+
     return await firstValueFrom(bookings$);
   }
 
   async getAllTimeslots() {
     const timeslots$ =
       this.http.get<TimeSlot[]>(`${this.env.apiRoot}/timeslots`);
+
     return await firstValueFrom(timeslots$);
   }
 }

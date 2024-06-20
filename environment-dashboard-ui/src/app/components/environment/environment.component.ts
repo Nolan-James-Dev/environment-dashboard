@@ -19,7 +19,6 @@ export class EnvironmentComponent {
 
   bookings = input<Booking[]>()
 
-
   constructor() {
     this.loadAllEnvironments()
       .then(() => console.log('All environments loaded', this.environments()));

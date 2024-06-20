@@ -1,6 +1,6 @@
 export type Booking = {
   username: string,
-  environmentName: string
+  environment: string
   date: Date,
   startTime: string,
   endTime: string,
