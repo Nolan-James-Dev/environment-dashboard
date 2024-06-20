@@ -11,11 +11,11 @@ export class UserService {
   http: HttpClient = inject(HttpClient);
   env = environment
 
-  async createUser(user: User) {
+  users$ = this.loadAllUsers();
+
+  async createUser(user: User): Promise<User> {
     const user$ =
-      this.http.post(`${this.env.apiRoot}/users`, {
-        "username": user.username
-      });
+      this.http.post<User>(`${this.env.apiRoot}/users`, user);
     return await firstValueFrom(user$);
   }
 

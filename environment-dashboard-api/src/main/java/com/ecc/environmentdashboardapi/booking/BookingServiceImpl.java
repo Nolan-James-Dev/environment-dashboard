@@ -24,13 +24,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingResponse createBooking(BookingRequest request) {
         log.info("User id {} attempting to create booking into {} on {} at {}",
-                request.userId(), request.environmentId(), request.date(), request.startTime());
+                request.username(), request.environmentName(), request.date(), request.startTime());
         boolean bookingExists = bookingExists(request);
 
         if (!bookingExists) {
-            User user = userRepository.findById(request.userId())
+            User user = userRepository.findByUsername(request.username())
                     .orElseThrow(() -> new EntityNotFoundException(NO_USER_ENTITY_FOUND_BY_ID));
-            Environment environment = environmentRepository.findById(request.environmentId())
+            Environment environment = environmentRepository.findByName(request.environmentName())
                     .orElseThrow(() -> new EntityNotFoundException(NO_ENVIRONMENT_ENTITY_FOUND_BY_ID));
             Booking booking = Booking.builder()
                     .user(user)
@@ -49,8 +49,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private boolean bookingExists(BookingRequest request) {
+        Environment environment = environmentRepository.findByName(request.environmentName())
+                .orElseThrow(() -> new EntityNotFoundException(NO_ENVIRONMENT_ENTITY_FOUND_BY_ID));
         return bookingRepository.bookingExists(
-                request.environmentId(),
+                environment.getId(),
                 request.date(),
                 request.startTime(),
                 request.endTime()

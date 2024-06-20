@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record BookingRequest(
-        Integer userId,
-        Integer environmentId,
+        String username,
+        String environmentName,
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         @JsonFormat(pattern = "dd/MM/yyyy")
