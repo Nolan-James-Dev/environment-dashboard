@@ -9,6 +9,7 @@ import {addUserDialog} from "../../components/user/add/add.component";
 import {RouterLink} from "@angular/router";
 import {addBookingDialog} from "../../components/booking/add/add.component";
 import {BookingService} from '../../services/booking/booking.service';
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,8 @@ import {BookingService} from '../../services/booking/booking.service';
   imports: [
     MatButton,
     MatAnchor,
-    RouterLink
+    RouterLink,
+    NgOptimizedImage
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
