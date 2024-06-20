@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5422/environment_dashboard
+    url: jdbc:postgresql://localhost:5421/environment_dashboard
     username: username
     password: password
     driver-class-name: org.postgresql.Driver
