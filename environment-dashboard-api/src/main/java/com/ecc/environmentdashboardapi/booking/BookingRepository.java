@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("""
@@ -16,4 +17,11 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             AND booking.endTime <= :endTime
             """)
     boolean bookingExists(Integer environmentId, LocalDate date, LocalTime startTime, LocalTime endTime);
+
+    @Query("""
+            SELECT booking
+            FROM Booking booking
+            WHERE booking.date = CURRENT_DATE
+            """)
+    List<Booking> getBookingsForCurrentDay();
 }
