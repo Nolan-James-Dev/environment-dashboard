@@ -7,4 +7,5 @@ public interface BookingService {
 
     List<BookingResponse> getBookingsForCurrentDay();
 
+    List<BookingResponse> getCurrentDayBookingsForEnvironment(String name);
 }

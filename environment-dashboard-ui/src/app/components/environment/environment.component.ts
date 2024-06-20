@@ -1,7 +1,8 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, input, signal} from '@angular/core';
 import {EnvironmentService} from "../../services/environment/environment.service";
 import {Environment} from "../../models/Environment.model";
 import {NgFor} from "@angular/common";
+import {Booking} from "../../models/Booking.model";
 
 @Component({
   selector: 'app-environment',
@@ -15,6 +16,8 @@ import {NgFor} from "@angular/common";
 export class EnvironmentComponent {
   environmentService = inject(EnvironmentService);
   environments = signal<Environment[]>([]);
+
+  bookings = input<Booking[]>()
 
 
   constructor() {

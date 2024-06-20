@@ -24,4 +24,10 @@ public class BookingController {
     public ResponseEntity<List<BookingResponse>> getBookingsForCurrentDay() {
         return ResponseEntity.ok(bookingService.getBookingsForCurrentDay());
     }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<List<BookingResponse>> getCurrentDayBookingsForEnvironment(
+            @PathVariable("name") String name) {
+        return ResponseEntity.ok(bookingService.getCurrentDayBookingsForEnvironment(name));
+    }
 }

@@ -24,4 +24,12 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             WHERE booking.date = CURRENT_DATE
             """)
     List<Booking> getBookingsForCurrentDay();
+
+    @Query("""
+            SELECT booking
+            FROM Booking booking
+            WHERE booking.date = CURRENT_DATE
+            AND booking.environment.name = :name
+            """)
+    List<Booking> getCurrentDayBookingsForEnvironment(String name);
 }

@@ -1,17 +1,19 @@
-<div class="row">
-  <div *ngFor="let env of environments()" class="col">
-    <div class="card" style="width: 18rem;">
+<div class="row ">
+  <div *ngFor="let env of environments()" class="col ">
+    <div class="card " style="width: 18rem;">
       <div class="card-body bg-light">
         <h5 class="card-title text-center">{{ env.name }}</h5>
       </div>
+
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Karthik - Testing - 09:00-10:00</li>
-        <li class="list-group-item">Sonali - Debugging - 10:00-12:00</li>
+        <li *ngFor="let booking of bookings()" class="list-group-item">{{ booking.username }}: {{ booking.startTime }}
+          : {{ booking.endTime }}
+        </li>
       </ul>
-      <!--        <div class="card-body">-->
-      <!--          <a href="#" class="card-link btn">Book Slot</a>-->
-      <!--          <a href="#" class="card-link">More Info</a>-->
-      <!--        </div>-->
+      <div class="card-body">
+        <a href="#" class="card-link btn">Book Slot</a>
+        <a href="#" class="card-link">More Info</a>
+      </div>
     </div>
   </div>
 </div>

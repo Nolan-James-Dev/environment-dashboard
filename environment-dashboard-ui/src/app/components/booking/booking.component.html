@@ -1,1 +1,5 @@
-<p>booking works!</p>
+<app-environment [bookings]="bookings()"/>
+
+<div *ngFor="let booking of bookings()">
+  <p>{{ booking.username }}</p>
+</div>
