@@ -86,7 +86,7 @@ export class AddComponent {
   }
 
   addBooking() {
-    this.form.value.date = moment().format("DD/MM/yyyy");
+    this.form.value.date = moment(this.form.value.date).format("DD/MM/yyyy");
     this.dialogRef.close(this.form.value);
     this._snackBar.open('Booking successfully created', '', {
       duration: 3000,
