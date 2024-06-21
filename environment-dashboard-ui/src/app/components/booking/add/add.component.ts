@@ -88,7 +88,10 @@ export class AddComponent {
   addBooking() {
     this.form.value.date = moment().format("DD/MM/yyyy");
     this.dialogRef.close(this.form.value);
-    this._snackBar.open('Message archived');
+    this._snackBar.open('Booking successfully created', '', {
+      duration: 3000,
+      panelClass: ['custom-style']
+    });
   }
 
   weekdayFilter = (d: Date | null): boolean => {
