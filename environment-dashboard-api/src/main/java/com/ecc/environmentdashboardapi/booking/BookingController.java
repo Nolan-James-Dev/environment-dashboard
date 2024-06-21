@@ -30,4 +30,11 @@ public class BookingController {
             @PathVariable("name") String name) {
         return ResponseEntity.ok(bookingService.getCurrentDayBookingsForEnvironment(name));
     }
+
+    @GetMapping("/date")
+    public ResponseEntity<List<BookingResponse>> getBookingsByDate(
+            @RequestParam String date) {
+        return ResponseEntity.ok(bookingService.getBookingsByDate(date));
+
+    }
 }

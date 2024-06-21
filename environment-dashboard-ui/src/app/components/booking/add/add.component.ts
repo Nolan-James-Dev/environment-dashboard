@@ -13,7 +13,12 @@ import {
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
-import {MatDatepickerModule} from "@angular/material/datepicker";
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {UserService} from "../../../services/user/user.service";
 import {User} from "../../../models/User.model";
@@ -23,6 +28,7 @@ import {Environment} from "../../../models/Environment.model";
 import {BookingService} from "../../../services/booking/booking.service";
 import {TimeSlot} from "../../../models/TimeSlot.model";
 import moment from "moment";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-add',
@@ -33,6 +39,9 @@ import moment from "moment";
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
     MatDatepickerModule,
     MatDialogContent,
     MatSelect,
@@ -66,7 +75,7 @@ export class AddComponent {
     reason: ['', Validators.required]
   })
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>, private _snackBar: MatSnackBar) {
     this.loadAllEnvironments();
     this.loadAllUsers();
     this.loadAllTimeslots();
@@ -79,6 +88,7 @@ export class AddComponent {
   addBooking() {
     this.form.value.date = moment().format("DD/MM/yyyy");
     this.dialogRef.close(this.form.value);
+    this._snackBar.open('Message archived');
   }
 
   weekdayFilter = (d: Date | null): boolean => {

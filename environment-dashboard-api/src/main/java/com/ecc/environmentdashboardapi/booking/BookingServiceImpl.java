@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.ecc.environmentdashboardapi.booking.BookingExceptionResponse.*;
@@ -61,6 +62,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingResponse> getCurrentDayBookingsForEnvironment(String name) {
         List<Booking> bookings = bookingRepository.getCurrentDayBookingsForEnvironment(name);
+        return bookings.stream()
+                .map(bookingMapper::toBookingResponse)
+                .toList();
+    }
+
+    @Override
+    public List<BookingResponse> getBookingsByDate(String date) {
+        LocalDate parsedDate = LocalDate.parse(date);
+        List<Booking> bookings = bookingRepository.getBookingsByDate(parsedDate);
         return bookings.stream()
                 .map(bookingMapper::toBookingResponse)
                 .toList();

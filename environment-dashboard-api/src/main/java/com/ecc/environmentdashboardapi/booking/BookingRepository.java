@@ -32,4 +32,11 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             AND booking.environment.name = :name
             """)
     List<Booking> getCurrentDayBookingsForEnvironment(String name);
+
+    @Query("""
+            SELECT booking
+            FROM Booking booking
+            WHERE booking.date = :date
+            """)
+    List<Booking> getBookingsByDate(LocalDate date);
 }

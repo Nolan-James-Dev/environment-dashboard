@@ -11,6 +11,7 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-add',
@@ -35,7 +36,7 @@ export class AddComponent {
     username: ['', Validators.required]
   })
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>, private _snackBar: MatSnackBar) {
 
   }
 
@@ -45,6 +46,10 @@ export class AddComponent {
 
   addUser() {
     this.dialogRef.close(this.form.value);
+    this._snackBar.open('User successfully created', '', {
+      duration: 3000,
+      panelClass: ['custom-style']
+    });
   }
 }
 

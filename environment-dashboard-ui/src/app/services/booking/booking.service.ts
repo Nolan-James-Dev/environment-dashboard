@@ -25,10 +25,19 @@ export class BookingService {
     return await firstValueFrom(bookings$);
   }
 
+  async getBookingsForSelectedDay(date: string) {
+    const bookings$ =
+      this.http.get<Booking[]>(`${this.env.apiRoot}/bookings/date?date=${date}`);
+
+    return await firstValueFrom(bookings$);
+  }
+
   async getAllTimeslots() {
     const timeslots$ =
       this.http.get<TimeSlot[]>(`${this.env.apiRoot}/timeslots`);
 
     return await firstValueFrom(timeslots$);
   }
+
+
 }
