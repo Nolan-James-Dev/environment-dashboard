@@ -11,6 +11,6 @@ import {NgFor} from "@angular/common";
 })
 export class ListComponent {
 
-  users = input.required<User[]>();
+  users = input.required<User[] | undefined>();
 
 }

@@ -1,8 +1,9 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment.development";
 import {firstValueFrom} from "rxjs";
 import {User} from "../../models/User.model";
+import {State} from "../../models/state.model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +12,32 @@ export class UserService {
   http: HttpClient = inject(HttpClient);
   env = environment
 
-  users$ = this.loadAllUsers();
 
-  async createUser(user: User): Promise<User> {
-    const user$ =
-      this.http.post<User>(`${this.env.apiRoot}/users`, user);
-    return await firstValueFrom(user$);
+  private allUsers$: WritableSignal<State<User[], HttpErrorResponse>>
+    = signal(State.Builder<User[], HttpErrorResponse>().forInit().build());
+  allUsers = computed(() => this.allUsers$());
+
+  getUsers() {
+    this.http.get<User[]>(`${this.env.apiRoot}/users`)
+      .subscribe({
+        next: response => this.allUsers$
+          .set(State.Builder<User[], HttpErrorResponse>().forSuccess(response).build()),
+        error: err => this.allUsers$
+          .set(State.Builder<User[], HttpErrorResponse>().forError(err).build())
+      });
   }
 
-  async loadAllUsers(): Promise<User[]> {
-    const users$ =
-      this.http.get<User[]>(`${this.env.apiRoot}/users`);
-    return await firstValueFrom(users$);
-  }
+  // users$ = this.loadAllUsers();
+
+  // async createUser(user: User): Promise<User> {
+  //   const user$ =
+  //     this.http.post<User>(`${this.env.apiRoot}/users`, user);
+  //   return await firstValueFrom(user$);
+  // }
+  //
+  // async loadAllUsers(): Promise<User[]> {
+  //   const users$ =
+  //     this.http.get<User[]>(`${this.env.apiRoot}/users`);
+  //   return await firstValueFrom(users$);
+  // }
 }

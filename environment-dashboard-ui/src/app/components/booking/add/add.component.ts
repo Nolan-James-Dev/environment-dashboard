@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, effect, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {
@@ -56,13 +56,15 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './add.component.html',
   styleUrl: './add.component.scss'
 })
-export class AddComponent {
+export class AddComponent implements OnInit {
   environmentService = inject(EnvironmentService);
   userService = inject(UserService);
   bookingService = inject(BookingService);
 
-  environments = signal<Environment[]>([]);
-  users = signal<User[]>([]);
+  // environments = signal<Environment[]>([]);
+  // users = signal<User[]>([]);
+  users: User[] | undefined;
+  environments: Environment[] | undefined;
   timeslots = signal<TimeSlot[]>([]);
 
 
@@ -76,9 +78,33 @@ export class AddComponent {
   })
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>, private _snackBar: MatSnackBar) {
-    this.loadAllEnvironments();
-    this.loadAllUsers();
+    effect(() => {
+      const allUsers = this.userService.allUsers().value;
+      if (allUsers) {
+        this.users = allUsers;
+      }
+      const allEnvironments = this.environmentService.allEnvironments().value;
+      if (allEnvironments) {
+        this.environments = allEnvironments;
+      }
+    });
+
+    // this.loadAllEnvironments();
+    // this.loadAllUsers();
     this.loadAllTimeslots();
+  }
+
+  ngOnInit(): void {
+    this.getUsers();
+    this.getEnvironments();
+  }
+
+  private getUsers() {
+    this.userService.getUsers();
+  }
+
+  private getEnvironments() {
+    this.environmentService.getEnvironments();
   }
 
   close() {
@@ -99,23 +125,23 @@ export class AddComponent {
     return day !== 0 && day !== 6;
   };
 
-  private async loadAllEnvironments() {
-    try {
-      const environments = await this.environmentService.loadAllEnvironments();
-      this.environments.set(environments);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // private async loadAllEnvironments() {
+  //   try {
+  //     const environments = await this.environmentService.loadAllEnvironments();
+  //     this.environments.set(environments);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
-  private async loadAllUsers() {
-    try {
-      const users = await this.userService.loadAllUsers();
-      this.users.set(users);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // private async loadAllUsers() {
+  //   try {
+  //     const users = await this.userService.loadAllUsers();
+  //     this.users.set(users);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   private async loadAllTimeslots() {
     try {

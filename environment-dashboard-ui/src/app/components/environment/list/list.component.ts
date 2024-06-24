@@ -12,6 +12,6 @@ import {NgForOf} from "@angular/common";
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
-  environments = input.required<Environment[]>();
+  environments = input.required<Environment[] | undefined>();
 
 }

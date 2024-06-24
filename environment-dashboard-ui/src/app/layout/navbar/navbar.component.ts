@@ -29,29 +29,29 @@ export class NavbarComponent {
   userService = inject(UserService);
   bookingService = inject(BookingService);
 
-  addEnvironment() {
-    addEnvironmentDialog(this.dialog)
-      .pipe(
-        filter(value => !!value)
-      )
-      .subscribe(
-        value => {
-          const environment = this.environmentService.createEnvironment(value);
-        }
-      );
-  }
+  // addEnvironment() {
+  //   addEnvironmentDialog(this.dialog)
+  //     .pipe(
+  //       filter(value => !!value)
+  //     )
+  //     .subscribe(
+  //       value => {
+  //         const environment = this.environmentService.createEnvironment(value);
+  //       }
+  //     );
+  // }
 
-  addUser() {
-    addUserDialog(this.dialog)
-      .pipe(
-        filter(value => !!value)
-      )
-      .subscribe(
-        value => {
-          const user = this.userService.createUser(value);
-        }
-      )
-  }
+  // addUser() {
+  //   addUserDialog(this.dialog)
+  //     .pipe(
+  //       filter(value => !!value)
+  //     )
+  //     .subscribe(
+  //       value => {
+  //         const user = this.userService.createUser(value);
+  //       }
+  //     )
+  // }
 
   addBooking() {
     addBookingDialog(this.dialog)
