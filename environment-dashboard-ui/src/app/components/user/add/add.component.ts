@@ -36,7 +36,7 @@ export class AddComponent {
     username: ['', Validators.required]
   })
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>, private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>) {
 
   }
 
@@ -46,10 +46,6 @@ export class AddComponent {
 
   addUser() {
     this.dialogRef.close(this.form.value);
-    this._snackBar.open('User successfully created', '', {
-      duration: 3000,
-      panelClass: ['custom-style']
-    });
   }
 }
 

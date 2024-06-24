@@ -29,6 +29,8 @@ import {BookingService} from "../../../services/booking/booking.service";
 import {TimeSlot} from "../../../models/TimeSlot.model";
 import moment from "moment";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
+import {Booking} from "../../../models/Booking.model";
 
 @Component({
   selector: 'app-add',
@@ -60,11 +62,13 @@ export class AddComponent implements OnInit {
   environmentService = inject(EnvironmentService);
   userService = inject(UserService);
   bookingService = inject(BookingService);
+  router = inject(Router);
 
   // environments = signal<Environment[]>([]);
   // users = signal<User[]>([]);
   users: User[] | undefined;
   environments: Environment[] | undefined;
+  newBooking: Booking | undefined;
   timeslots = signal<TimeSlot[]>([]);
 
 
@@ -87,6 +91,20 @@ export class AddComponent implements OnInit {
       if (allEnvironments) {
         this.environments = allEnvironments;
       }
+
+      //
+      // if (booking) {
+      //   this.newBooking = booking;
+      //   this._snackBar.open('Booking successfully created', '', {
+      //     duration: 3000,
+      //     panelClass: ['custom-style']
+      //   });
+      // } else {
+      //   this._snackBar.open('Issue creating booking', '', {
+      //     duration: 3000,
+      //     panelClass: ['custom-style']
+      //   });
+      // }
     });
 
     // this.loadAllEnvironments();
@@ -114,10 +132,7 @@ export class AddComponent implements OnInit {
   addBooking() {
     this.form.value.date = moment(this.form.value.date).format("DD/MM/yyyy");
     this.dialogRef.close(this.form.value);
-    this._snackBar.open('Booking successfully created', '', {
-      duration: 3000,
-      panelClass: ['custom-style']
-    });
+
   }
 
   weekdayFilter = (d: Date | null): boolean => {

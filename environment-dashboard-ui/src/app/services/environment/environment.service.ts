@@ -17,6 +17,10 @@ export class EnvironmentService {
     = signal(State.Builder<Environment[], HttpErrorResponse>().forInit().build());
   allEnvironments = computed(() => this.allEnvironments$());
 
+  private newEnvironment$: WritableSignal<State<Environment, HttpErrorResponse>>
+    = signal(State.Builder<Environment, HttpErrorResponse>().forInit().build());
+  newEnvironment = computed(() => this.newEnvironment$());
+
   getEnvironments() {
     this.http.get<Environment[]>(`${this.env.apiRoot}/environments`)
       .subscribe({
@@ -26,6 +30,16 @@ export class EnvironmentService {
           this.allEnvironments$
             .set(State.Builder<Environment[], HttpErrorResponse>().forError(err).build())
         }
+      })
+  }
+
+  createEnvironment(environment: Environment) {
+    this.http.post<Environment>(`${this.env.apiRoot}/environments`, environment)
+      .subscribe({
+        next: response => this.newEnvironment$
+          .set(State.Builder<Environment, HttpErrorResponse>().forSuccess(response).build()),
+        error: err => this.newEnvironment$
+          .set(State.Builder<Environment, HttpErrorResponse>().forError(err).build()),
       })
   }
 

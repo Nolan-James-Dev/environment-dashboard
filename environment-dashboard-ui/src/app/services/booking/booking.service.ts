@@ -6,6 +6,7 @@ import {firstValueFrom} from "rxjs";
 import {TimeSlot} from "../../models/TimeSlot.model";
 import {State} from "../../models/state.model";
 import {User} from "../../models/User.model";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class BookingService {
     = signal(State.Builder<Booking[], HttpErrorResponse>().forInit().build());
   allBookingsBySelectedDay = computed(() => this.allBookingsBySelectedDay$());
 
+  private addBooking$: WritableSignal<State<Booking, HttpErrorResponse>>
+    = signal(State.Builder<Booking, HttpErrorResponse>().forInit().build());
+  addBooking = computed(() => this.addBooking$());
+
   getBookingsByCurrentDay() {
     this.http.get<Booking[]>(`${this.env.apiRoot}/bookings`)
       .subscribe({
@@ -32,10 +37,9 @@ export class BookingService {
       });
   }
 
-  getBookingsBySelectedDay() {
-    this.http.get<Booking[]>(`${this.env.apiRoot}/bookings/date?date=${date}`);
-
-  .subscribe({
+  getBookingsBySelectedDay(date: string) {
+    this.http.get<Booking[]>(`${this.env.apiRoot}/bookings/date?date=${date}`)
+      .subscribe({
         next: response => this.allBookingsByCurrentDay$
           .set(State.Builder<Booking[], HttpErrorResponse>().forSuccess(response).build()),
         error: err => this.allBookingsByCurrentDay$
@@ -43,25 +47,35 @@ export class BookingService {
       });
   }
 
-  async createBooking(booking: Booking): Promise<Booking> {
-    const booking$ =
-      this.http.post<Booking>(`${this.env.apiRoot}/bookings`, booking);
-    return await firstValueFrom(booking$);
+  createBooking(booking: Booking) {
+    this.http.post<Booking>(`${this.env.apiRoot}/bookings`, booking)
+      .subscribe({
+        next: response => this.addBooking$
+          .set(State.Builder<Booking, HttpErrorResponse>().forSuccess(response).build()),
+        error: err => this.addBooking$
+          .set(State.Builder<Booking, HttpErrorResponse>().forError(err).build()),
+      })
   }
 
-  async getBookingsForCurrentDay(): Promise<Booking[]> {
-    const bookings$ =
-      this.http.get<Booking[]>(`${this.env.apiRoot}/bookings`);
+  // async createBooking(booking: Booking): Promise<Booking> {
+  //   const booking$ =
+  //     this.http.post<Booking>(`${this.env.apiRoot}/bookings`, booking);
+  //   return await firstValueFrom(booking$);
+  // }
 
-    return await firstValueFrom(bookings$);
-  }
-
-  async getBookingsForSelectedDay(date: string) {
-    const bookings$ =
-      this.http.get<Booking[]>(`${this.env.apiRoot}/bookings/date?date=${date}`);
-
-    return await firstValueFrom(bookings$);
-  }
+  // async getBookingsForCurrentDay(): Promise<Booking[]> {
+  //   const bookings$ =
+  //     this.http.get<Booking[]>(`${this.env.apiRoot}/bookings`);
+  //
+  //   return await firstValueFrom(bookings$);
+  // }
+  //
+  // async getBookingsForSelectedDay(date: string) {
+  //   const bookings$ =
+  //     this.http.get<Booking[]>(`${this.env.apiRoot}/bookings/date?date=${date}`);
+  //
+  //   return await firstValueFrom(bookings$);
+  // }
 
   async getAllTimeslots() {
     const timeslots$ =

@@ -17,6 +17,10 @@ export class UserService {
     = signal(State.Builder<User[], HttpErrorResponse>().forInit().build());
   allUsers = computed(() => this.allUsers$());
 
+  private newUser$: WritableSignal<State<User, HttpErrorResponse>>
+    = signal(State.Builder<User, HttpErrorResponse>().forInit().build());
+  newUser = computed(() => this.newUser$());
+
   getUsers() {
     this.http.get<User[]>(`${this.env.apiRoot}/users`)
       .subscribe({
@@ -25,6 +29,17 @@ export class UserService {
         error: err => this.allUsers$
           .set(State.Builder<User[], HttpErrorResponse>().forError(err).build())
       });
+  }
+
+  createUser(user: User) {
+    this.http.post<User>(`${this.env.apiRoot}/users`, user)
+      .subscribe({
+        next: response => this.newUser$
+          .set(State.Builder<User, HttpErrorResponse>().forSuccess(response).build()),
+        error: err => this.newUser$
+          .set(State.Builder<User, HttpErrorResponse>().forError(err).build())
+      });
+
   }
 
   // users$ = this.loadAllUsers();
