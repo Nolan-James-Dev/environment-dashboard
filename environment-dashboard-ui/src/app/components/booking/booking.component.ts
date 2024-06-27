@@ -49,19 +49,8 @@ export class BookingComponent implements OnInit {
   selectedDay: Booking[] | undefined
 
   constructor() {
-    effect(() => {
-      const allBookingsForCurrentDay = this.bookingService.allBookingsByCurrentDay().value;
-      const allBookingsForSelectedDay = this.bookingService.allBookingsBySelectedDay().value;
-      console.log("SELECTED DAY: ", allBookingsForSelectedDay);
-      if (allBookingsForCurrentDay) {
-        this.bookings = allBookingsForCurrentDay;
-        this.groupBookings();
-      }
-      if (allBookingsForSelectedDay) {
-        this.selectedDay = allBookingsForSelectedDay;
-        this.groupBookingsOnSelectedDay();
-      }
-    });
+    this.listenBookingsCurrentDay();
+    this.listenBookingsForSelectedDay();
     // this.loadBookingsForCurrentDay();
   }
 
@@ -83,53 +72,7 @@ export class BookingComponent implements OnInit {
   private getBookingsForSelectedDay(date: string) {
     const requestDate = moment(date, "Do MMMM YYYY").format("yyyy-MM-DD");
     this.bookingService.getBookingsBySelectedDay(requestDate);
-    // if (allBookingsForSelectedDay) {
-    //   this.bookings = allBookingsForSelectedDay;
-    // }
   }
-
-  // private async loadBookingsForCurrentDay() {
-  //   try {
-  //     const bookings = await this.bookingService.getBookingsForCurrentDay();
-  //
-  //     const group = bookings.reduce((acc: any, booking) => {
-  //       let key = booking.environment;
-  //       if (!acc[key]) {
-  //         acc[key] = [];
-  //       }
-  //       acc[key].push(booking);
-  //       return acc;
-  //     }, {});
-  //
-  //     this.bookingsByEnvironment = Object.keys(group).map(key => ({
-  //       environment: key,
-  //       bookings: group[key]
-  //     }));
-  //     this.bookings.set(bookings);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  // private async loadBookingsForSelectedDay(date: string) {
-  //   const requestDate = moment(date, "Do MMMM YYYY").format("yyyy-MM-DD");
-  //   const bookings = await this.bookingService.getBookingsForSelectedDay(requestDate);
-  //
-  //   const group = bookings.reduce((acc: any, booking) => {
-  //     let key = booking.environment;
-  //     if (!acc[key]) {
-  //       acc[key] = [];
-  //     }
-  //     acc[key].push(booking);
-  //     return acc;
-  //   }, {});
-  //
-  //   this.bookingsByEnvironment = Object.keys(group).map(key => ({
-  //     environment: key,
-  //     bookings: group[key]
-  //   }));
-  //   this.bookings.set(bookings);
-  // }
 
   weekdayFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
@@ -164,5 +107,26 @@ export class BookingComponent implements OnInit {
       environment: key,
       bookings: group[key]
     }));
+  }
+
+  private listenBookingsCurrentDay() {
+    effect(() => {
+      const allBookingsForCurrentDay = this.bookingService.allBookingsByCurrentDay().value;
+      if (allBookingsForCurrentDay) {
+        this.bookings = allBookingsForCurrentDay;
+        this.groupBookings();
+      }
+    });
+  }
+
+  private listenBookingsForSelectedDay() {
+    effect(() => {
+      const allBookingsForSelectedDay = this.bookingService.allBookingsBySelectedDay().value;
+      if (allBookingsForSelectedDay) {
+        this.selectedDay = allBookingsForSelectedDay;
+        this.groupBookingsOnSelectedDay();
+      }
+    });
+
   }
 }

@@ -43,15 +43,4 @@ export class EnvironmentService {
       })
   }
 
-  // async createEnvironment(environment: Environment): Promise<Environment> {
-  //   const environment$ =
-  //     this.http.post<Environment>(`${this.env.apiRoot}/environments`, environment);
-  //   return await firstValueFrom(environment$);
-  // }
-  //
-  // async loadAllEnvironments(): Promise<Environment[]> {
-  //   const environments$ =
-  //     this.http.get<Environment[]>(`${this.env.apiRoot}/environments`);
-  //   return await firstValueFrom(environments$);
-  // }
 }

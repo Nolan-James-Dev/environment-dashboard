@@ -34,25 +34,15 @@ export class UserService {
   createUser(user: User) {
     this.http.post<User>(`${this.env.apiRoot}/users`, user)
       .subscribe({
-        next: response => this.newUser$
-          .set(State.Builder<User, HttpErrorResponse>().forSuccess(response).build()),
+        next: response => {
+          let newUser
+            = State.Builder<User, HttpErrorResponse>().forSuccess(response).build()
+          this.newUser$
+            .set(State.Builder<User, HttpErrorResponse>().forSuccess(response).build())
+          this.allUsers$.update(value => value);
+        },
         error: err => this.newUser$
           .set(State.Builder<User, HttpErrorResponse>().forError(err).build())
       });
-
   }
-
-  // users$ = this.loadAllUsers();
-
-  // async createUser(user: User): Promise<User> {
-  //   const user$ =
-  //     this.http.post<User>(`${this.env.apiRoot}/users`, user);
-  //   return await firstValueFrom(user$);
-  // }
-  //
-  // async loadAllUsers(): Promise<User[]> {
-  //   const users$ =
-  //     this.http.get<User[]>(`${this.env.apiRoot}/users`);
-  //   return await firstValueFrom(users$);
-  // }
 }

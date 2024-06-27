@@ -5,8 +5,7 @@ import {AddComponent, addEnvironmentDialog} from "../../components/environment/a
 import {EnvironmentService} from "../../services/environment/environment.service";
 import {filter} from "rxjs";
 import {UserService} from "../../services/user/user.service";
-import {addUserDialog} from "../../components/user/add/add.component";
-import {Router, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {addBookingDialog} from "../../components/booking/add/add.component";
 import {BookingService} from '../../services/booking/booking.service';
 import {NgOptimizedImage} from "@angular/common";
@@ -52,17 +51,17 @@ export class NavbarComponent {
       );
   }
 
-  addUser() {
-    addUserDialog(this.dialog)
-      .pipe(
-        filter(value => !!value)
-      )
-      .subscribe(
-        value => {
-          this.userService.createUser(value);
-        }
-      )
-  }
+  // addUser() {
+  //   addUserDialog(this.dialog)
+  //     .pipe(
+  //       filter(value => !!value)
+  //     )
+  //     .subscribe(
+  //       value => {
+  //         this.userService.createUser(value);
+  //       }
+  //     )
+  // }
 
 
   addBooking() {

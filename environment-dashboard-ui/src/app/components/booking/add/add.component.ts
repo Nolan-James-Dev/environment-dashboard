@@ -64,8 +64,6 @@ export class AddComponent implements OnInit {
   bookingService = inject(BookingService);
   router = inject(Router);
 
-  // environments = signal<Environment[]>([]);
-  // users = signal<User[]>([]);
   users: User[] | undefined;
   environments: Environment[] | undefined;
   newBooking: Booking | undefined;
@@ -82,33 +80,8 @@ export class AddComponent implements OnInit {
   })
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddComponent>, private _snackBar: MatSnackBar) {
-    effect(() => {
-      const allUsers = this.userService.allUsers().value;
-      if (allUsers) {
-        this.users = allUsers;
-      }
-      const allEnvironments = this.environmentService.allEnvironments().value;
-      if (allEnvironments) {
-        this.environments = allEnvironments;
-      }
-
-      //
-      // if (booking) {
-      //   this.newBooking = booking;
-      //   this._snackBar.open('Booking successfully created', '', {
-      //     duration: 3000,
-      //     panelClass: ['custom-style']
-      //   });
-      // } else {
-      //   this._snackBar.open('Issue creating booking', '', {
-      //     duration: 3000,
-      //     panelClass: ['custom-style']
-      //   });
-      // }
-    });
-
-    // this.loadAllEnvironments();
-    // this.loadAllUsers();
+    this.listenUsers();
+    this.listenEnvironments();
     this.loadAllTimeslots();
   }
 
@@ -132,7 +105,6 @@ export class AddComponent implements OnInit {
   addBooking() {
     this.form.value.date = moment(this.form.value.date).format("DD/MM/yyyy");
     this.dialogRef.close(this.form.value);
-
   }
 
   weekdayFilter = (d: Date | null): boolean => {
@@ -140,32 +112,31 @@ export class AddComponent implements OnInit {
     return day !== 0 && day !== 6;
   };
 
-  // private async loadAllEnvironments() {
-  //   try {
-  //     const environments = await this.environmentService.loadAllEnvironments();
-  //     this.environments.set(environments);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  // private async loadAllUsers() {
-  //   try {
-  //     const users = await this.userService.loadAllUsers();
-  //     this.users.set(users);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
   private async loadAllTimeslots() {
     try {
       const timeslots = await this.bookingService.getAllTimeslots();
       this.timeslots.set(timeslots);
-      console.log(timeslots);
     } catch (err) {
       console.log(err);
     }
+  }
+
+  private listenUsers() {
+    effect(() => {
+      const allUsers = this.userService.allUsers().value;
+      if (allUsers) {
+        this.users = allUsers;
+      }
+    });
+  }
+
+  private listenEnvironments() {
+    effect(() => {
+      const allEnvironments = this.environmentService.allEnvironments().value;
+      if (allEnvironments) {
+        this.environments = allEnvironments;
+      }
+    });
   }
 }
 

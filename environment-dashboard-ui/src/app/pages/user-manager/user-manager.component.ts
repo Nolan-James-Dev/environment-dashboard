@@ -1,4 +1,4 @@
-import {Component, effect, inject, OnInit, signal} from '@angular/core';
+import {Component, effect, inject, OnInit} from '@angular/core';
 import {UserService} from "../../services/user/user.service";
 import {User} from "../../models/User.model";
 import {NgForOf} from "@angular/common";
@@ -26,10 +26,6 @@ export class UserManagerComponent implements OnInit {
         this.users = allUsers;
       }
     });
-
-
-    // this.loadAllUsers()
-    //   .then(() => console.log("All users loaded", this.users()));
   }
 
   ngOnInit(): void {
@@ -39,15 +35,5 @@ export class UserManagerComponent implements OnInit {
   private getUsers() {
     this.userService.getUsers();
   }
-
-  // private async loadAllUsers() {
-  //   try {
-  //     const users = await this.userService.loadAllUsers();
-  //     this.users.set(users);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
 
 }

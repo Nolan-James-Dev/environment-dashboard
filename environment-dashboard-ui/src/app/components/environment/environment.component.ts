@@ -15,7 +15,6 @@ import {Booking} from "../../models/Booking.model";
 })
 export class EnvironmentComponent implements OnInit {
   environmentService = inject(EnvironmentService);
-  // environments = signal<Environment[]>([]);
   environments: Environment[] | undefined;
 
   bookings = input<Booking[]>()
@@ -27,8 +26,6 @@ export class EnvironmentComponent implements OnInit {
         this.environments = allEnvironments;
       }
     });
-    // this.loadAllEnvironments()
-    //   .then(() => console.log('All environments loaded', this.environments()));
   }
 
   ngOnInit(): void {
@@ -39,12 +36,4 @@ export class EnvironmentComponent implements OnInit {
     this.environmentService.getEnvironments();
   }
 
-  // private async loadAllEnvironments() {
-  //   try {
-  //     const environments = await this.environmentService.loadAllEnvironments();
-  //     this.environments.set(environments);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
 }

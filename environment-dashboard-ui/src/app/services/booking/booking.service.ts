@@ -57,26 +57,6 @@ export class BookingService {
       })
   }
 
-  // async createBooking(booking: Booking): Promise<Booking> {
-  //   const booking$ =
-  //     this.http.post<Booking>(`${this.env.apiRoot}/bookings`, booking);
-  //   return await firstValueFrom(booking$);
-  // }
-
-  // async getBookingsForCurrentDay(): Promise<Booking[]> {
-  //   const bookings$ =
-  //     this.http.get<Booking[]>(`${this.env.apiRoot}/bookings`);
-  //
-  //   return await firstValueFrom(bookings$);
-  // }
-  //
-  // async getBookingsForSelectedDay(date: string) {
-  //   const bookings$ =
-  //     this.http.get<Booking[]>(`${this.env.apiRoot}/bookings/date?date=${date}`);
-  //
-  //   return await firstValueFrom(bookings$);
-  // }
-
   async getAllTimeslots() {
     const timeslots$ =
       this.http.get<TimeSlot[]>(`${this.env.apiRoot}/timeslots`);
